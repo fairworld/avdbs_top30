@@ -3,9 +3,7 @@ import os
 import yaml
 import sqlite3
 
-import custom_logger
-import custom_chromedriver
-import init_db
+from util import custom_chromedriver, init_db, custom_logger
 import time
 
 
