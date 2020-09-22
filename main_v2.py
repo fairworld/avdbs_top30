@@ -18,6 +18,12 @@ import time
 logger = custom_logger.set_logger()
 
 # sqlite3 db 연결
+# 로그 저장할 폴더 생성
+current_dir = os.path.dirname(os.path.realpath(__file__))
+db_dir = '{}/db'.format(current_dir)
+if not os.path.exists(db_dir):
+    os.makedirs(db_dir)
+
 con = sqlite3.connect('./db/avlist.db')
 cur = con.cursor()
 table_name = 'av_list'
@@ -29,8 +35,8 @@ url_week = conf['url_week']
 url_month = conf['url_month']
 url_year = conf['url_year']
 url_all = conf['url_all']
-# url = [url_week, url_month, url_year, url_all]
-url = [url_week,]
+url = [url_week, url_month, url_year, url_all]
+# url = [url_week,]
 
 driver_path = conf['driver_path']
 user_id = conf['user_id']
