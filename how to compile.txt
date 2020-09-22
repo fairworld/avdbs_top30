@@ -1,0 +1,1 @@
+pyinstaller --onefile --add-binary "Selenium\chromedriver.exe";"." main.py

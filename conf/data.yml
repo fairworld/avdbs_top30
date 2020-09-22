@@ -1,0 +1,8 @@
+url_week: https://www.avdbs.com/menu/dvd_ranking.php
+url_month: https://www.avdbs.com/menu/dvd_ranking.php?tab=month
+url_year: https://www.avdbs.com/menu/dvd_ranking.php?tab=year
+url_all: https://www.avdbs.com/menu/dvd_ranking.php?tab=all
+driver_path: Selenium\\chromedriver.exe
+user_id: fairworld
+user_password: wjds$1029!
+login_url: https://www.avdbs.com/menu/member/login.php
