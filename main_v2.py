@@ -80,7 +80,9 @@ cur.execute(sql)
 for row in cur:
     titles.append(row[0])
 
-url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=size&o=desc&q='
+# url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=size&o=desc&q='
+url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=seeders&o=desc&q='
+
 
 # set 타입으로 변환하여 중복을 제거, 단 순서는 뒤죽박죽
 titles = set(titles)
@@ -91,10 +93,11 @@ total_count = len(titles)
 count = 0
 for title in titles:
     driver.get(url2 + title)
+    count_str = str(count+1) + "/" + str(total_count)
     try:
         download_url = driver.find_element_by_xpath("//td[@class='text-center']/a").get_attribute('href')
         driver.find_element_by_xpath("//td[@class='text-center']/a").click()
-        logger.info(title + "(" + download_url + ") <= 다운로드 완료")
+        logger.info(count_str + " " + title + "(" + download_url + ") <= 다운로드 완료")
 
         # title로 조회했을 시 이미 데이터가 있는지 확인하는 절차
         try:
@@ -133,10 +136,10 @@ for title in titles:
             count = count + 1
         except:
             # logger.info('Exception occured!!!', e)
-            logger.info(title + "<= DB INSERT 실패")
+            logger.info(count_str + " " + title + "<= DB INSERT 실패")
     except:
         try:
-            logger.info(title + " <= Seed 없음")
+            logger.info(count_str + " " + title + " <= Seed 없음")
             sql = ("insert into "
                    "av_list ("
                    "title, "
@@ -154,7 +157,7 @@ for title in titles:
             con.commit()
         except:
             # logger.info('Exception occured!!!', e)
-            logger.info(title + "<= DB INSERT 실패")
+            logger.info(count_str + " " + title + "<= DB INSERT 실패")
             con.commit()
             continue
         continue
