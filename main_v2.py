@@ -13,7 +13,8 @@ import time
 '''
 
 # logger 설정
-logger = custom_logger.set_logger()
+log_dir = os.path.dirname(os.path.realpath(__file__))
+logger = custom_logger.set_logger(log_dir)
 
 # sqlite3 db 연결
 # 로그 저장할 폴더 생성
