@@ -1,13 +1,12 @@
 import time
 import os, shutil
-import custom_logger
-import custom_chromedriver
+from util import custom_chromedriver, custom_logger
 
 # logger 설정
 logger = custom_logger.set_logger()
 
 url = 'https://www.avdbs.com/menu/search.php?kwd='
-driver_path = 'Selenium\\chromedriver.exe'
+driver_path = 'util/Selenium\\chromedriver.exe'
 
 #chrome driver 설정
 driver = custom_chromedriver.set_chromedriver(driver_path)
