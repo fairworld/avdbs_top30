@@ -81,8 +81,8 @@ cur.execute(sql)
 for row in cur:
     titles.append(row[0])
 
-# url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=size&o=desc&q='
-url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=seeders&o=desc&q='
+url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=size&o=desc&q='
+#url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=seeders&o=desc&q='
 
 
 # set 타입으로 변환하여 중복을 제거, 단 순서는 뒤죽박죽
