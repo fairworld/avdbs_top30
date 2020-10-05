@@ -1,9 +1,11 @@
 from selenium import webdriver
+from selenium.webdriver.remote.remote_connection import LOGGER, logging
 
 
 def set_chromedriver(driver_path):
     # ChromeDriver 설정
     options = webdriver.ChromeOptions()
+    options.add_argument("--log-level=3")
     options.add_argument('--headless')
     # options.add_argument('windows-size=1920x1080')
     # options.add_argument('--disable-notifications')
