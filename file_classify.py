@@ -22,7 +22,7 @@ driver.get('about:blank')
 driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
 
 
-if len(sys.argv) >= 0:
+if len(sys.argv) >= 2:
     path_name = sys.argv[1]
 else:
     path_name = 'D:\\점검중'
