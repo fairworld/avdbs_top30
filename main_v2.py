@@ -92,9 +92,11 @@ logger.info('기존 미다운로드 수량과 목록 수량을 합한 량: ' + l
 total_count = len(titles)
 
 count = 0
+iteration = 0
 for title in titles:
     driver.get(url2 + title)
-    count_str = str(count+1) + "/" + str(total_count)
+    iteration += 1
+    count_str = str(iteration) + "/" + str(total_count)
     try:
         download_url = driver.find_element_by_xpath("//td[@class='text-center']/a").get_attribute('href')
         driver.find_element_by_xpath("//td[@class='text-center']/a").click()
@@ -162,6 +164,7 @@ for title in titles:
             con.commit()
             continue
         continue
+
     # time.sleep(1)
 
 logger.info('총 ' + len(titles).__str__() + '건 중 ' + count.__str__() + '건을 신규로 다운로드 완료하였습니다.')
