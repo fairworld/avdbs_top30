@@ -2,6 +2,8 @@ import time
 import os, shutil
 from util import custom_chromedriver, custom_logger
 from datetime import datetime
+import sys
+import re
 
 # dateformat 설정
 datestr_format = "{:%Y-%m-%d_%H%M%S}"
@@ -19,7 +21,11 @@ driver = custom_chromedriver.set_chromedriver(driver_path)
 driver.get('about:blank')
 driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
 
-path_name = 'D:\\점검중'
+
+if len(sys.argv) >= 0:
+    path_name = sys.argv[1]
+else:
+    path_name = 'D:\\점검중'
 # path_name ='F:\\rarbg\\점검중'
 
 file_list = os.listdir(path_name)
@@ -42,6 +48,8 @@ for temp in file_list:
     print(temp)
 
     filename = temp
+
+    temp = re.sub('-[a-zA-Z]{1}.', '.', temp)
     temp = temp.replace("\n", "")
     temp = temp.replace(".mp4", "")
     temp = temp.replace(".avi", "")
