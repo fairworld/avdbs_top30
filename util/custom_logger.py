@@ -8,6 +8,7 @@ def set_logger(log_dir_path):
     # 현재 파일 경로 및 파일명 찾기
     current_dir = os.path.dirname(os.path.realpath(__file__))
     current_file = os.path.basename(__file__)
+    print(current_file)
     current_file_name = current_file[:-3] + ".log".__str__()  # xxxx.py
     log_filename = '{}'.format(current_file_name)
     config_filepath = os.path.join(current_dir, '../conf/logging.conf')
