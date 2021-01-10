@@ -55,6 +55,8 @@ for temp in file_list:
     temp = temp.replace(".avi", "")
     temp = temp.replace(".mkv", "")
     temp = temp.replace(".wmv", "")
+    temp = temp.replace("-2.mp4", ".mp4")
+    temp = temp.replace("-1.mp4", ".mp4")
 
     driver.get(url + temp)
     driver.implicitly_wait(1)

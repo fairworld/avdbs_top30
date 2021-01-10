@@ -1,20 +1,14 @@
 import os
-
-import yaml
+import re
 import sqlite3
-
-from util import custom_chromedriver, init_db, custom_logger
 import time
-
-
-'''
-# To do list
-1. ch로 끝나는 파일을 확인할 방법이 있는가?
-'''
+import yaml
+from util import custom_chromedriver, init_db, custom_logger_v2
 
 # logger 설정
+filename = re.sub('.py', '.log', os.path.basename(__file__))
 log_dir = os.path.dirname(os.path.realpath(__file__))
-logger = custom_logger.set_logger(log_dir)
+logger = custom_logger_v2.set_logger(log_dir, filename)
 
 # sqlite3 db 연결
 # 로그 저장할 폴더 생성
@@ -23,19 +17,18 @@ db_dir = '{}/db'.format(current_dir)
 if not os.path.exists(db_dir):
     os.makedirs(db_dir)
 
-con = sqlite3.connect('./db/avlist.db')
+con = sqlite3.connect('../db/avlist.db')
 cur = con.cursor()
 table_name = 'av_list'
 
 # 변수선언
-with open('conf/data.yml', 'rt', encoding='UTF8') as f:
+with open('../conf/data.yml', 'rt', encoding='UTF8') as f:
     conf = yaml.load(f, Loader=yaml.FullLoader)
 url_week = conf['url_week']
 url_month = conf['url_month']
 url_year = conf['url_year']
 url_all = conf['url_all']
 url = [url_week, url_month, url_year, url_all]
-# url = [url_week,]
 
 driver_path = conf['driver_path']
 user_id = conf['user_id']
@@ -46,12 +39,12 @@ login_url = conf['login_url']
 init_db.initialize(logger, cur, table_name)
 
 # chrome driver 설정
-driver = custom_chromedriver.set_chromedriver(driver_path)
+driver = custom_chromedriver.set_chromedriver_headless(driver_path)
 driver.get('about:blank')
 driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
 
 # selenium chromedriver headless download 경로 설정
-custom_chromedriver.enable_download(driver, os.path.join(os.path.dirname(os.path.realpath(__file__)), "download\\"))
+custom_chromedriver.enable_download(driver, os.path.join(os.path.dirname(os.path.realpath(__file__)), "../download\\"))
 
 # 로그인부터 처리
 driver.get(login_url)
@@ -81,9 +74,8 @@ cur.execute(sql)
 for row in cur:
     titles.append(row[0])
 
-url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=size&o=desc&q='
-#url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=seeders&o=desc&q='
-
+# url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=size&o=desc&q='
+url2 = 'https://sukebei.nyaa.si/?f=0&c=0_0&s=seeders&o=desc&q='
 
 # set 타입으로 변환하여 중복을 제거, 단 순서는 뒤죽박죽
 titles = set(titles)
@@ -99,8 +91,7 @@ for title in titles:
     count_str = str(iteration) + "/" + str(total_count)
     try:
         download_url = driver.find_element_by_xpath("//td[@class='text-center']/a").get_attribute('href')
-        driver.find_element_by_xpath("//td[@class='text-center']/a").click()
-        logger.info(count_str + " " + title + "(" + download_url + ") <= 다운로드 완료")
+        logger.info(count_str + " " + title + "(" + download_url + ") <= DB Insert 완료")
 
         # title로 조회했을 시 이미 데이터가 있는지 확인하는 절차
         try:
@@ -138,7 +129,6 @@ for title in titles:
                     con.commit()
             count = count + 1
         except:
-            # logger.info('Exception occured!!!', e)
             logger.info(count_str + " " + title + "<= DB INSERT 실패")
     except:
         try:
@@ -170,5 +160,6 @@ for title in titles:
 logger.info('총 ' + len(titles).__str__() + '건 중 ' + count.__str__() + '건을 신규로 다운로드 완료하였습니다.')
 con.commit()
 con.close()
-time.sleep(10)
+# time.sleep(10)
 driver.close()
+driver.quit()

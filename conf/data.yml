@@ -6,3 +6,6 @@ driver_path: util\\Selenium\\chromedriver.exe
 user_id: fairworld
 user_password: wjds$1029!
 login_url: https://www.avdbs.com/menu/member/login.php
+qburl: http://192.168.1.99:28080
+qbid: fairworld
+qbpwd: wjds$1029!

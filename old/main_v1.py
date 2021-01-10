@@ -7,7 +7,7 @@ import custom_chromedriver
 logger = custom_logger.set_logger()
 
 # sqlite3 db 연결
-con = sqlite3.connect('./db/avlist.db')
+con = sqlite3.connect('../db/avlist.db')
 cur = con.cursor()
 table_name = 'av_list'
 

@@ -3,6 +3,9 @@ import re
 import sqlite3
 import time
 import yaml
+from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
+
 from util import custom_chromedriver, init_db, custom_logger_v2
 
 def find_link(logger):
@@ -31,7 +34,8 @@ def find_link(logger):
     init_db.initialize(logger, cur, table_name)
 
     # chrome driver 설정
-    driver = custom_chromedriver.set_chromedriver_headless(driver_path)
+    #driver = custom_chromedriver.set_chromedriver_headless(driver_path)
+    driver = webdriver.Remote("http://192.168.1.99:4444/wd/hub", DesiredCapabilities.CHROME)
     driver.get('about:blank')
     driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
 
@@ -68,6 +72,7 @@ def find_link(logger):
                        "WHERE title = :Title")
                 cur.execute(sql, {"Downloaded": 'y', "Url": download_url, "Title": title})
                 logger.info(count_str + " " + title + "(" + download_url + ") <= URL을 DB Insert 완료")
+                count = count + 1
                 con.commit()
             except:
                 # logger.info(count_str + " " + title + " <= URL을 찾을 수 없음")
@@ -75,7 +80,7 @@ def find_link(logger):
         except:
             logger.info(count_str + " " + title + " <= URL을 찾을 수 없음")
             # pass
-        count = count + 1
+
         time.sleep(1)
 
     logger.info('총 ' + len(titles).__str__() + '건 중 ' + count.__str__() + '건을 신규로 URL을 추가하였습니다.')

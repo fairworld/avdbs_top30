@@ -3,6 +3,9 @@ import re
 import sqlite3
 import time
 import yaml
+from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
+
 from util import custom_chromedriver, init_db, custom_logger_v2
 
 def find_titles(logger):
@@ -38,7 +41,9 @@ def find_titles(logger):
     init_db.initialize(logger, cur, table_name)
 
     # chrome driver 설정
-    driver = custom_chromedriver.set_chromedriver_headless(driver_path)
+    #driver = custom_chromedriver.set_chromedriver_headless(driver_path)
+    driver = webdriver.Remote("http://192.168.1.99:4444/wd/hub", DesiredCapabilities.CHROME)
+
     driver.get('about:blank')
     driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
 
@@ -54,6 +59,7 @@ def find_titles(logger):
 
     titles = []
     for u in url:
+        print(u)
         driver.get(u)
         elements = driver.find_elements_by_xpath("//*[@class='snum highlight']")
 

@@ -1,6 +1,6 @@
 import sqlite3
 
-con = sqlite3.connect('./db/avlist.db')
+con = sqlite3.connect('../db/avlist.db')
 cur = con.cursor()
 
 # CREATE TABLE "av_list" (

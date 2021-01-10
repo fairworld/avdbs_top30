@@ -26,12 +26,12 @@ db_dir = '{}/db'.format(current_dir)
 if not os.path.exists(db_dir):
     os.makedirs(db_dir)
 
-con = sqlite3.connect('./db/avlist.db')
+con = sqlite3.connect('../db/avlist.db')
 cur = con.cursor()
 table_name = 'av_list'
 
 # 변수선언
-with open('conf/data.yml', 'rt', encoding='UTF8') as f:
+with open('../conf/data.yml', 'rt', encoding='UTF8') as f:
     conf = yaml.load(f, Loader=yaml.FullLoader)
 url_week = conf['url_week']
 url_month = conf['url_month']
